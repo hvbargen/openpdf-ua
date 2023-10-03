@@ -161,7 +161,7 @@ public class HelloWorld {
             draw(cb, "This is some english text.");
             cb.endMarkedContentSequence();
             cb.endText();
-/*
+
             PdfStructureElement p_de = new PdfStructureElement(document, PdfName.P);
             cb.beginText();
             p_de.put(PdfName.LANG, german);
@@ -171,7 +171,7 @@ public class HelloWorld {
             draw(cb, "Und hier ist ein Text für deutschsprachige Leser.");
             cb.endMarkedContentSequence();
             cb.endText();
-*/
+
             doc.close();
         } catch (Exception ex) {
             ex.printStackTrace();
