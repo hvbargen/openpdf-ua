@@ -36,8 +36,9 @@ import com.lowagie.text.xml.xmp.XmpWriter;
 public class HelloWorld {
 
 
+    private static final PdfName ACTUAL_TEXT = new PdfName("ActualText");
 
-        private static float x = 100f, y = 800f;
+    private static float x = 100f, y = 800f;
 
 
     private static class DublinCoreAccessibleSchema extends DublinCoreSchema {
@@ -154,6 +155,7 @@ public class HelloWorld {
             BaseFont bf = BaseFont.createFont("C:\\windows\\fonts\\arial.ttf", BaseFont.WINANSI, BaseFont.EMBEDDED);
 
             PdfStructureElement p_en = new PdfStructureElement(document, PdfName.P);
+            p_en.put(PdfName.LANG, us_english);
             cb.beginText();
             cb.beginMarkedContentSequence(p_en);
             cb.setFontAndSize(bf, 12);
@@ -163,12 +165,27 @@ public class HelloWorld {
             cb.endText();
 
             PdfStructureElement p_de = new PdfStructureElement(document, PdfName.P);
-            cb.beginText();
             p_de.put(PdfName.LANG, german);
+            cb.beginText();
             cb.beginMarkedContentSequence(p_de);
             cb.setFontAndSize(bf, 12);
             cb.moveText(x, y);
             draw(cb, "Und hier ist ein Text für deutschsprachige Leser.");
+            cb.endMarkedContentSequence();
+            cb.endText();
+
+            // Now we try some text which spans several lines,
+            // with hyphenation.
+            p_de = new PdfStructureElement(document, PdfName.P);
+            p_de.put(PdfName.LANG, german);
+            p_de.put(ACTUAL_TEXT, new PdfString("Das ist ein längerer Text mit dem schönen Wort Bundestagspräsident.", PdfObject.TEXT_UNICODE));
+            cb.beginText();
+            cb.beginMarkedContentSequence(p_de);
+            cb.setFontAndSize(bf, 12);
+            cb.setLeading(14.0f);
+            cb.moveText(50, 200);
+            cb.showText("Das ist ein längerer Text mit dem schönen Wort Bundestags-");
+            cb.newlineShowText("präsident.");
             cb.endMarkedContentSequence();
             cb.endText();
 
